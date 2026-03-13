@@ -31,6 +31,12 @@
   .nav-links a:hover { color: var(--sky); }
   .nav-donate { background: var(--gold) !important; color: var(--white) !important; padding: 8px 20px; border-radius: 2px; }
   .nav-donate:hover { background: var(--charcoal) !important; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--charcoal); border-radius: 2px; transition: all 0.3s; }
+  .mobile-menu { display: none; position: fixed; top: 68px; left: 0; right: 0; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.08); padding: 16px 24px; z-index: 99; flex-direction: column; gap: 0; }
+  .mobile-menu a { display: block; padding: 12px 0; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); text-decoration: none; border-bottom: 1px solid rgba(0,0,0,0.05); }
+  .mobile-menu a:last-child { border-bottom: none; color: var(--gold); }
+  .mobile-menu.open { display: flex; }
 
   /* HERO */
   #hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: linear-gradient(160deg, #1a3a5c 0%, #2e6da0 55%, #5ba3d0 100%); padding: 100px 24px 80px; }
@@ -170,6 +176,7 @@
     .form-row { grid-template-columns: 1fr; }
     nav { padding: 0 20px; }
     .nav-links { display: none; }
+    .hamburger { display: flex; }
   }
   @media (max-width: 520px) {
     .board-grid, .donate-grid { grid-template-columns: 1fr; }
@@ -189,7 +196,18 @@
     <li><a href="#contact">Contact</a></li>
     <li><a href="#donate" class="nav-donate">Donate</a></li>
   </ul>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobile()">About GA-1</a>
+  <a href="#mission" onclick="closeMobile()">Mission</a>
+  <a href="#help" onclick="closeMobile()">Get Help</a>
+  <a href="#board" onclick="closeMobile()">Board</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+  <a href="#donate" onclick="closeMobile()">Donate</a>
+</div>
 
 <section id="hero">
   <div class="hero-inner">
@@ -282,8 +300,10 @@
     <div class="paypal-donate-wrap">
       <form action="https://www.paypal.com/donate" method="post" target="_top">
         <input type="hidden" name="hosted_button_id" value="CV8JPJ6B4ZGGS" />
-        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-        <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+        <button type="submit" style="background:var(--gold);color:var(--white);border:none;padding:16px 48px;font-size:1rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;border-radius:2px;cursor:pointer;font-family:inherit;transition:background 0.2s;">
+          Donate via PayPal
+        </button>
+        <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" style="display:none;" />
       </form>
       <p class="donate-note" style="margin-top:20px;">501(c)(3) registered &nbsp;|&nbsp; All contributions are tax deductible</p>
     </div>
@@ -487,6 +507,20 @@
   });
 
 
+
+  // HAMBURGER MENU
+  var hamburger = document.getElementById('hamburger');
+  var mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', function() {
+    mobileMenu.classList.toggle('open');
+  });
+  function closeMobile() {
+    mobileMenu.classList.remove('open');
+  }
+  // Close mobile menu on scroll
+  window.addEventListener('scroll', function() {
+    mobileMenu.classList.remove('open');
+  });
 
   // FAQ ACCORDION
   document.querySelectorAll('.faq-q').forEach(function(q) {
